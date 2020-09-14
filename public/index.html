@@ -4,7 +4,18 @@
     <title></title>
 </head>
 <body>
+    <main>
+        <h3>{{ heading }}</h3>
+        <ul v-if='images.length > 0'>
+            <li v-for='image in images'>
+                {{ image.title }}
+                <img :src=image.url>
+            </li>
+        </ul>
+        <div v-else>no images</div>
+    </main>
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 </html>
