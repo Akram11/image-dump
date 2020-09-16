@@ -25,6 +25,7 @@
         },
         methods: {
             handleClick: function (e) {
+                var that = this;
                 // prevents the page from reloading
                 e.preventDefault();
                 // 'this' allows me to see all the properties of data
@@ -40,6 +41,7 @@
                 axios
                     .post("/upload", formData)
                     .then(function (resp) {
+                        that.images.unshift(resp.data.rows[0]);
                         console.log("resp from POST /uplaod: ", resp);
                     })
                     .catch(function (err) {

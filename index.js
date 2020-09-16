@@ -35,9 +35,10 @@ app.post("/upload", uploader.single("file"), (req, res) => {
         let { path } = req.file;
         path = "." + path.slice(path.indexOf("/uploads"), path.length);
         const { title, description, username } = req.body;
-        db.insertImage(path, title, description, username).then(() => {
+        db.insertImage(path, title, description, username).then(({ rows }) => {
             res.json({
                 success: true,
+                rows,
             });
         });
     } else {
