@@ -1,0 +1,18 @@
+img {
+    height: 300px;
+    width: 100%;
+}
+
+section > div:first-of-type {
+    background-color: dimgray;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.img-card {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}

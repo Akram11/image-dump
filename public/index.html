@@ -3,6 +3,7 @@
 
 <head>
     <title></title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -16,14 +17,17 @@
             <button @click='handleClick'>submit</button>
         </form>
 
-
-        <ul v-if='images.length > 0'>
-            <li v-for='image in images'>
+<section >
+        <div  v-if='images.length > 0'>
+            <div class="img-card" v-for='image in images'>
                 {{ image.title }}
                 <img :src=image.url>
-            </li>
-        </ul>
+            </div>
+        </div>
         <div v-else>no images</div>
+
+</section>
+
     </main>
 
 

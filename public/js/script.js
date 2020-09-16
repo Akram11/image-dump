@@ -50,8 +50,6 @@
             },
 
             handleChange: function (e) {
-                // console.log('handleChange is running!!!!');
-                // console.log('file: ', e.target.files[0]);
                 this.file = e.target.files[0];
             },
         },
