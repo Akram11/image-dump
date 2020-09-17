@@ -17,23 +17,33 @@
             <button @click='handleClick'>submit</button>
         </form>
 
-<section >
-        <div  v-if='images.length > 0'>
-            <div class="img-card" v-for='image in images'>
-                {{ image.title }}
-                <img :src=image.url>
+        <section>
+            <div v-if='images.length > 0'>
+                <div class="img-card" v-for='image in images' @click='handleImageClick(image.id)'>
+                    <!-- <a :href="#" + image.id>
+
+                    </a> -->
+                    {{ image.title }}
+                    <img :src=image.url>
+                </div>
             </div>
-        </div>
-        <div v-else>no images</div>
-
-</section>
-
+            <div v-else>no images</div>
+            <image-modal class="img-modal" v-if='showModal' @close="showModal = false" :image-id="imageId"> </image-modal>
+        </section>
     </main>
 
 
 
 
-    
+    <script id='image-modal' type="text/x-template">
+        <div>
+           
+            <button class="close-button"   @click="$emit('close')">x</button>
+            <h1 @click='handleClick'>{{imageId}}{{photoObj.title}}{{photoObj.description}}</h1>
+        </div>
+    </script>
+
+
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
     <script src="/js/script.js"></script>

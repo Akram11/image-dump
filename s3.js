@@ -14,16 +14,28 @@ const s3 = new aws.S3({
 });
 
 exports.upload = (req, res, next) => {
+    if (!req.file) {
+        console.log(
+            "req.file is not there for some reason and we cannot continue!"
+        );
+        return res.sendStatus(500);
+    }
     const { filename, mimetype, size, path } = req.file;
-
-    const proimse = s3
-        .putObject({
-            Bucket: "imagesdump",
-            ACL: "public-read",
-            key: filename,
-            Body: fs.createReadStream(path),
-            contentType: mimetype,
-            ContentLength: size,
+    s3.putObject({
+        Bucket: "imagesdump",
+        ACL: "public-read",
+        Key: filename,
+        Body: fs.createReadStream(path),
+        ContentType: mimetype,
+        ContentLength: size,
+    })
+        .promise()
+        .then(() => {
+            console.log(`It worked!`);
+            next();
         })
-        .promise();
+        .catch((err) => {
+            console.log(err);
+            res.sendStatus(500);
+        });
 };

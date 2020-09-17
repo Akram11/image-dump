@@ -17,3 +17,7 @@ module.exports.insertImage = (url, username, title, description) => {
         [url, username, title, description]
     );
 };
+
+module.exports.getImage = (id) => {
+    return db.query(`SELECT * FROM images where id = $1`, [id]);
+};

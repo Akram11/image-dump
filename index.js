@@ -5,6 +5,7 @@ const s3 = require("./s3");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
 const path = require("path");
+const { s3Url } = require("./config.json");
 
 const diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -25,17 +26,18 @@ const uploader = multer({
 });
 
 app.use(express.static("public"));
-// app.use(express.json());
+app.use(express.json());
 
-app.post("/upload", uploader.single("file"), (req, res) => {
+app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     // req.file gives you access to your file
     // req.body gives you access to the user input
-
     if (req.file) {
-        let { path } = req.file;
-        path = "." + path.slice(path.indexOf("/uploads"), path.length);
         const { title, description, username } = req.body;
-        db.insertImage(path, title, description, username).then(({ rows }) => {
+        let { filename } = req.file;
+
+        // path = "." + path.slice(path.indexOf("/uploads"), path.length);
+        const url = `${s3Url}${filename}`;
+        db.insertImage(url, title, description, username).then(({ rows }) => {
             res.json({
                 success: true,
                 rows,
@@ -50,6 +52,13 @@ app.post("/upload", uploader.single("file"), (req, res) => {
 
 app.get("/get-images", (req, res) => {
     db.getImages().then(({ rows }) => {
+        res.json({ rows });
+    });
+});
+
+app.get("/get-images/:imageId", (req, res) => {
+    console.log(req.params);
+    db.getImage(req.params.imageId).then(({ rows }) => {
         res.json({ rows });
     });
 });
