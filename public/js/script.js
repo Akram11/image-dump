@@ -55,10 +55,6 @@
                 this.showModal = true;
                 this.imageId = id;
             },
-            eventChild: function () {
-                this.showModal = false;
-                console.log("sssss", this.showModal);
-            },
         },
     });
 
@@ -68,6 +64,9 @@
         data: function () {
             return {
                 photoObj: {},
+                comments: [],
+                username: "",
+                comment: "",
             };
         },
         mounted: function () {
@@ -75,7 +74,18 @@
             axios
                 .get("/get-images/" + this.imageId)
                 .then(function (response) {
+                    console.log(response);
                     that.photoObj = response.data.rows[0];
+                })
+                .catch(function (err) {
+                    console.log("err in GET /get-image", err);
+                });
+
+            axios
+                .get("/get-images/" + this.imageId + "/comments")
+                .then(function (response) {
+                    that.comments = response.data.rows;
+                    console.log("comments", that.comments);
                 })
                 .catch(function (err) {
                     console.log("err in GET /get-image", err);
@@ -85,7 +95,23 @@
             imageId: function () {},
         },
         methods: {
-            handleClick: function () {},
+            handleComment: function (e) {
+                var that = this;
+                e.preventDefault();
+                console.log(this.username, this.comment, this.imageId);
+                axios
+                    .post("/comment", {
+                        username: this.username,
+                        comment: this.comment,
+                        imageId: that.imageId,
+                    })
+                    .then((resp) => {
+                        that.comments.unshift(resp.data.rows[0]);
+                    })
+                    .catch((err) => {
+                        console.error("error in handleComment", err);
+                    });
+            },
         },
     });
 })();

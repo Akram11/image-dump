@@ -37,12 +37,17 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 
         // path = "." + path.slice(path.indexOf("/uploads"), path.length);
         const url = `${s3Url}${filename}`;
-        db.insertImage(url, title, description, username).then(({ rows }) => {
-            res.json({
-                success: true,
-                rows,
+        db.insertImage(url, title, description, username)
+            .then(({ rows }) => {
+                res.json({
+                    success: true,
+                    rows,
+                });
+            })
+            .catch((err) => {
+                console.log("error uploading image", err);
+                res.status(500).send("Something broke!");
             });
-        });
     } else {
         res.json({
             success: false,
@@ -51,16 +56,48 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 });
 
 app.get("/get-images", (req, res) => {
-    db.getImages().then(({ rows }) => {
-        res.json({ rows });
-    });
+    db.getImages()
+        .then(({ rows }) => {
+            res.json({ rows });
+        })
+        .catch((err) => {
+            console.error("error getting images", err);
+            res.status(500).send("Something broke!");
+        });
 });
 
 app.get("/get-images/:imageId", (req, res) => {
-    console.log(req.params);
-    db.getImage(req.params.imageId).then(({ rows }) => {
-        res.json({ rows });
-    });
+    db.getImage(req.params.imageId)
+        .then(({ rows }) => {
+            res.json({ rows });
+        })
+        .catch((err) => {
+            console.error("error getting clicked image", err);
+            res.status(500).send("Something broke!");
+        });
+});
+
+app.get("/get-images/:imageId/comments", (req, res) => {
+    db.getComments(req.params.imageId)
+        .then(({ rows }) => {
+            res.json({ rows });
+        })
+        .catch((err) => {
+            console.error("error getting comments", err);
+            res.status(500).send("Something broke!");
+        });
+});
+
+app.post("/comment", (req, res) => {
+    let { username, comment, imageId } = req.body;
+    db.addComment(username, comment, imageId)
+        .then(({ rows }) => {
+            res.json({ rows });
+        })
+        .catch((err) => {
+            console.error("error adding comment", err);
+            res.status(500).send("Something broke!");
+        });
 });
 
 app.listen(8080, () => console.log("listening on port 8080"));

@@ -39,7 +39,22 @@
         <div>
            
             <button class="close-button"   @click="$emit('close')">x</button>
-            <h1 @click='handleClick'>{{imageId}}{{photoObj.title}}{{photoObj.description}}</h1>
+            <img :src=photoObj.url :alt=photoObj.title>
+            <h1>{{photoObj.title}}</h1>
+            <p>{{photoObj.description}}</p>
+            <h5>uploaded at: {{photoObj.created_at}}</h5>
+            <form>
+                <input v-model='comment' type="text" name='comment' placeholder='comment'>
+                <input v-model='username' type="text" name='username' placeholder='username'>
+                <button @click='handleComment'>add a comment</button>
+            </form>
+            <div v-if='comments.length > 0'>
+                <div class="comment" v-for='comment in comments'>
+                    {{ comment.comment }}
+                    <span class="comment-info">{{comment.username}}{{ comment.created_at }}</span> 
+                </div>
+            </div>
+            <div v-else>no comments yet</div>
         </div>
     </script>
 
