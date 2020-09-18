@@ -77,6 +77,17 @@ app.get("/get-images/:imageId", (req, res) => {
         });
 });
 
+app.get("/get-more/:lowerstId", (req, res) => {
+    db.getMoreImages(req.params.lowerstId)
+        .then(({ rows }) => {
+            res.json({ rows });
+        })
+        .catch((err) => {
+            console.error("error getting more images", err);
+            res.status(500).send("Something broke!");
+        });
+});
+
 app.get("/get-images/:imageId/comments", (req, res) => {
     db.getComments(req.params.imageId)
         .then(({ rows }) => {

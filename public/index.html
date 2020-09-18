@@ -19,16 +19,17 @@
 
         <section>
             <div v-if='images.length > 0'>
-                <div class="img-card" v-for='image in images' @click='handleImageClick(image.id)'>
-                    <!-- <a :href="#" + image.id>
+                <div class="img-card" v-for='image in images'>
+                    <a :href="'#' + image.id">
 
-                    </a> -->
-                    {{ image.title }}
-                    <img :src=image.url>
+                        <img :src=image.url>
+                        {{ image.title }}
+                    </a>
                 </div>
             </div>
             <div v-else>no images</div>
-            <image-modal class="img-modal" v-if='showModal' @close="showModal = false" :image-id="imageId"> </image-modal>
+            <image-modal class="img-modal" v-if='imageId' @close="close" :image-id="imageId"> </image-modal>
+            <button @click='showMore'>show more</button>
         </section>
     </main>
 

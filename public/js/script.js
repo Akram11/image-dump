@@ -8,7 +8,7 @@
             username: "",
             file: null,
             showModal: false,
-            imageId: null, //location.hash.slice(1),
+            imageId: location.hash.slice(1),
         },
 
         mounted: function () {
@@ -19,14 +19,17 @@
                     that.heading = "images";
                     that.images = response.data.rows;
                 })
+                .then(function () {
+                    that.autoScroll();
+                })
                 .catch(function (err) {
                     console.log("err in GET /get-images", err);
                 });
 
             window.addEventListener("hashchange", function (e) {
-                // console.log(location.hash);
                 that.imageId = location.hash.slice(1);
             });
+            // this.autoScroll();
         },
         methods: {
             handleClick: function (e) {
@@ -42,7 +45,7 @@
                     .post("/upload", formData)
                     .then(function (resp) {
                         that.images.unshift(resp.data.rows[0]);
-                        console.log("resp from POST /uplaod: ", resp);
+                        // console.log("resp from POST /uplaod: ", resp);
                     })
                     .catch(function (err) {
                         console.log("err in POST /upload: ", err);
@@ -52,8 +55,40 @@
                 this.file = e.target.files[0];
             },
             handleImageClick: function (id) {
-                this.showModal = true;
+                // this.showModal = true;
                 this.imageId = id;
+            },
+            close: function () {
+                this.imageId = null;
+                location.hash = "";
+            },
+            showMore: function () {
+                var that = this;
+                const lowestID = this.images[this.images.length - 1].id;
+                axios
+                    .get("/get-more/" + lowestID)
+                    .then(function (response) {
+                        let result = response.data.rows;
+                        that.images = [...that.images, ...result];
+                        that.autoScroll();
+                    })
+                    .catch((err) => {
+                        console.log("err in POST /upload: ", err);
+                    });
+            },
+            autoScroll: function () {
+                var that = this;
+                setTimeout(function () {
+                    if (
+                        window.innerHeight + window.pageYOffset >=
+                        document.body.clientHeight - 100
+                    ) {
+                        that.showMore();
+                        console.log("autoScroll");
+                    } else {
+                        this.autoScroll();
+                    }
+                }, 2000);
             },
         },
     });
@@ -74,7 +109,6 @@
             axios
                 .get("/get-images/" + this.imageId)
                 .then(function (response) {
-                    console.log(response);
                     that.photoObj = response.data.rows[0];
                 })
                 .catch(function (err) {
@@ -85,14 +119,15 @@
                 .get("/get-images/" + this.imageId + "/comments")
                 .then(function (response) {
                     that.comments = response.data.rows;
-                    console.log("comments", that.comments);
                 })
                 .catch(function (err) {
                     console.log("err in GET /get-image", err);
                 });
         },
         watch: {
-            imageId: function () {},
+            imageId: function () {
+                console.log("imageId has changed!");
+            },
         },
         methods: {
             handleComment: function (e) {
@@ -111,6 +146,8 @@
                     .catch((err) => {
                         console.error("error in handleComment", err);
                     });
+                this.comment = "";
+                this.username = "";
             },
         },
     });

@@ -1,6 +1,7 @@
 img {
     height: 300px;
     width: 100%;
+    /* filter: grayscale(1); */
 }
 
 section > div:first-of-type {
