@@ -6,7 +6,7 @@ var db = spicedPg(
 
 module.exports.getImages = () => {
     return db.query(`SELECT * FROM images ORDER BY id DESC
-                     LIMIT 5;`);
+                     LIMIT 10;`);
 };
 
 module.exports.insertImage = (url, username, title, description) => {
@@ -49,7 +49,7 @@ module.exports.getMoreImages = (lowerstId) => {
                     ) AS "lowestId" FROM images
                     WHERE id < $1
                     ORDER BY id DESC
-                    LIMIT 1;
+                    LIMIT 10;
                     `,
         [lowerstId]
     );

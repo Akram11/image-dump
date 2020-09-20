@@ -37,7 +37,7 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 
         // path = "." + path.slice(path.indexOf("/uploads"), path.length);
         const url = `${s3Url}${filename}`;
-        db.insertImage(url, title, description, username)
+        db.insertImage(url, username, title, description)
             .then(({ rows }) => {
                 res.json({
                     success: true,

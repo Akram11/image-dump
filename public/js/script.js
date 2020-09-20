@@ -50,12 +50,15 @@
                     .catch(function (err) {
                         console.log("err in POST /upload: ", err);
                     });
+                this.title = "";
+                this.description = "";
+                this.username = "";
+                this.file = null;
             },
             handleChange: function (e) {
                 this.file = e.target.files[0];
             },
             handleImageClick: function (id) {
-                // this.showModal = true;
                 this.imageId = id;
             },
             close: function () {
@@ -86,9 +89,9 @@
                         that.showMore();
                         console.log("autoScroll");
                     } else {
-                        this.autoScroll();
+                        that.autoScroll();
                     }
-                }, 2000);
+                }, 500);
             },
         },
     });

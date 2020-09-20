@@ -2,34 +2,36 @@
 <html>
 
 <head>
-    <title></title>
+    <title>Image Dump</title>
     <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
 </head>
 
 <body>
     <main>
-
-        <form>
+        <header> <img class= 'logo 'src="/logo.png" alt="logo"></header>
+        <form class="upload">
             <input v-model='title' type="text" name='title' placeholder='title'>
             <input v-model='description' type="text" name='description' placeholder='description'>
             <input v-model='username' type="text" name='username' placeholder='username'>
             <input @change='handleChange' type="file" name='file' accept='image/*'>
-            <button @click='handleClick'>submit</button>
+            <button @click='handleClick'>upload</button>
         </form>
 
         <section>
             <div v-if='images.length > 0'>
-                <div class="img-card" v-for='image in images'>
-                    <a :href="'#' + image.id">
+                <div data-aos="fade-up"  v-for='image in images'>
+                    <a :href="'#' + image.id" class="img-card">
 
                         <img :src=image.url>
-                        {{ image.title }}
+                        <span class="title">{{ image.title }}</span>
                     </a>
                 </div>
             </div>
             <div v-else>no images</div>
             <image-modal class="img-modal" v-if='imageId' @close="close" :image-id="imageId"> </image-modal>
-            <button @click='showMore'>show more</button>
+            <!-- <button @click='showMore'>show more</button> -->
         </section>
     </main>
 
@@ -59,6 +61,10 @@
         </div>
     </script>
 
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
 
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>

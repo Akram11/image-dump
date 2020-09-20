@@ -4,38 +4,98 @@ img {
     /* filter: grayscale(1); */
 }
 
-section > div:first-of-type {
-    background-color: dimgray;
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.img-card {
-    width: 300px;
+main {
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
+header {
+    width: 100%;
+    height: 70px;
+    box-shadow: 2px 0px 2px 0px grey;
+    margin-bottom: 20px;
+}
+
+.logo {
+    margin-top: 10px;
+    width: 200px;
+    height: 50px;
+}
+
+.upload {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.upload > input {
+    width: 25%;
+    margin-left: 10px;
+    max-width: 250px;
+}
+section > div:first-of-type {
+    background-color: rgb(253, 253, 253);
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.img-card {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 2px 20px 2px;
+}
+
+img {
+    object-fit: cover;
+}
+
+.title {
+    text-align: center;
+    color: gray;
+    margin-top: 5px;
+    font-family: ubuntu;
+    font-size: 18px;
+}
+a {
+    text-decoration: none;
+}
+
 .img-modal {
     position: fixed;
+    background-color: rgba(172, 172, 172, 0.7);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: aqua;
-    width: 600px;
+    width: 80%;
     max-width: 100%;
-    height: 400px;
+    height: 90%;
     max-height: 100%;
     padding: 20px 50px 20px 20px;
-
     /* let it scroll */
     overflow: auto;
     z-index: 1010;
+    border: 2px solid #888;
 }
 
-.img-modal-overlay {
+.img-modal > img {
+    object-fit: contain;
+    width: 100%;
+    height: 500px;
+    /* justify-self: flex-end; */
+    align-self: center;
+    margin-left: 15px;
+}
+
+/* .img-modal-overlay {
     z-index: 1000;
     display: flex;
     position: fixed;
@@ -43,21 +103,16 @@ section > div:first-of-type {
     left: 0;
     width: 100%;
     height: 100%;
-}
+} */
 
 .img-modal .close-button {
     position: absolute;
-
-    /* don't need to go crazy with z-index here, just sits over .modal-guts */
     z-index: 1;
     cursor: pointer;
-    top: 10px;
-
-    /* needs to look OK with or without scrollbar */
-    right: 20px;
-
+    top: 7px;
+    right: 9px;
     border: 0;
-    background: black;
+    background: rgb(125, 28, 28);
     color: white;
     padding: 5px 10px;
     font-size: 1.3rem;
