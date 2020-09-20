@@ -4,13 +4,13 @@
 <head>
     <title>Image Dump</title>
     <link rel="stylesheet" href="style.css">
-      <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
 </head>
 
 <body>
     <main>
-        <header> <img class= 'logo 'src="/logo.png" alt="logo"></header>
+        <header> <img class='logo ' src="/logo.png" alt="logo"></header>
         <form class="upload">
             <input v-model='title' type="text" name='title' placeholder='title'>
             <input v-model='description' type="text" name='description' placeholder='description'>
@@ -21,7 +21,7 @@
 
         <section>
             <div v-if='images.length > 0'>
-                <div data-aos="fade-up"  v-for='image in images'>
+                <div data-aos="fade-up" v-for='image in images'>
                     <a :href="'#' + image.id" class="img-card">
 
                         <img :src=image.url>
@@ -42,29 +42,41 @@
         <div>
            
             <button class="close-button"   @click="$emit('close')">x</button>
-            <img :src=photoObj.url :alt=photoObj.title>
             <h1>{{photoObj.title}}</h1>
-            <p>{{photoObj.description}}</p>
-            <h5>uploaded at: {{photoObj.created_at}}</h5>
+        
+            <img v-bind:class="[activeClass]" :src=photoObj.url :alt=photoObj.title>
+            <span class="note">uploaded at: {{photoObj.created_at}} by {{photoObj.username}}</span>
+            <div class="filters">
+              <button id='gray' @click='activeClass ="grayClass"'></button>
+              <button id='sepia' @click='activeClass ="sepia"'></button>
+              <button id='saturate' @click='activeClass ="saturate"'></button>
+              <button id='hue' @click='activeClass ="hue-rotate"'></button>
+              <button id='invert' @click='activeClass ="invert"'></button>
+              <button id='brightness' @click='activeClass ="brightness"'></button>
+              <button id='contrast' @click='activeClass ="contrast"'></button>
+            </div>
+    
+            <p class="description">{{photoObj.description}}</p>
             <form>
-                <input v-model='comment' type="text" name='comment' placeholder='comment'>
-                <input v-model='username' type="text" name='username' placeholder='username'>
+                <input v-model='comment' type="text" name='comment' placeholder='comment'required>
+                <input v-model='username' type="text" name='username' placeholder='username'required>
                 <button @click='handleComment'>add a comment</button>
             </form>
             <div v-if='comments.length > 0'>
-                <div class="comment" v-for='comment in comments'>
-                    {{ comment.comment }}
-                    <span class="comment-info">{{comment.username}}{{ comment.created_at }}</span> 
+                <div class="comments" v-for='comment in comments'>
+                   <span class="username"> {{comment.username}}: </span>
+                   <span class="comment"> {{ comment.comment }}</span>
+                    <span class="comment-date">{{ comment.created_at }}</span> 
                 </div>
             </div>
             <div v-else>no comments yet</div>
         </div>
     </script>
 
-  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-  <script>
-    AOS.init();
-  </script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
 
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>

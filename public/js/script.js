@@ -105,6 +105,7 @@
                 comments: [],
                 username: "",
                 comment: "",
+                activeClass: "",
             };
         },
         mounted: function () {
@@ -136,7 +137,6 @@
             handleComment: function (e) {
                 var that = this;
                 e.preventDefault();
-                console.log(this.username, this.comment, this.imageId);
                 axios
                     .post("/comment", {
                         username: this.username,
@@ -151,6 +151,10 @@
                     });
                 this.comment = "";
                 this.username = "";
+            },
+            grayClass: function (value) {
+                console.log(value);
+                this.activeClass = "grayClass";
             },
         },
     });

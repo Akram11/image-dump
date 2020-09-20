@@ -1,7 +1,6 @@
 img {
     height: 300px;
     width: 100%;
-    /* filter: grayscale(1); */
 }
 
 main {
@@ -95,6 +94,52 @@ a {
     margin-left: 15px;
 }
 
+.img-modal > h1 {
+    font-size: 28px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.img-modal > p {
+    font-size: 22px;
+}
+
+.note {
+    display: block;
+    margin-top: -3px;
+    padding-left: 15px;
+}
+
+.description {
+    padding-left: 15px;
+    margin-top: 25px;
+}
+
+.comments {
+    margin-top: 5px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: rgba(172, 172, 172, 0.9);
+    border-radius: 10px;
+}
+
+.username {
+    padding-bottom: 3px;
+    font-size: 16px;
+}
+
+.comment {
+    padding-bottom: 3px;
+    font-size: 22px;
+}
+
+.comment-date {
+    color: dimgray;
+    font-size: 14px;
+}
+
 /* .img-modal-overlay {
     z-index: 1000;
     display: flex;
@@ -116,4 +161,76 @@ a {
     color: white;
     padding: 5px 10px;
     font-size: 1.3rem;
+}
+
+.grayClass {
+    filter: grayscale(1);
+}
+
+.sepia {
+    -webkit-filter: sepia(1);
+    filter: sepia(1);
+}
+
+.saturate {
+    -webkit-filter: saturate(5);
+    filter: saturate(5);
+}
+.hue-rotate {
+    -webkit-filter: hue-rotate(90deg);
+    filter: hue-rotate(90deg);
+}
+.invert {
+    -webkit-filter: invert(0.6);
+    filter: invert(0.6);
+}
+.brightness {
+    -webkit-filter: brightness(2);
+    filter: brightness(2);
+}
+.contrast {
+    -webkit-filter: contrast(4);
+    filter: contrast(4);
+}
+.filters {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.filters > button {
+    width: 20px;
+    height: 20px;
+    border: 3px solid black;
+    margin: 3px;
+}
+#gray {
+    background: repeating-linear-gradient(45deg, black, white 20px);
+}
+
+#sepia {
+    background: linear-gradient(45deg, rgb(255, 187, 0), white 20px);
+}
+
+#saturate {
+    background: linear-gradient(45deg, red, blue 20px);
+}
+
+#hue {
+    background: linear-gradient(45deg, green, purple 20px);
+}
+
+#invert {
+    background: repeating-linear-gradient(90deg, gray, black 20px);
+}
+
+#brightness {
+    background: white;
+}
+
+#contrast {
+    background: repeating-linear-gradient(90deg, white, black 20px);
 }

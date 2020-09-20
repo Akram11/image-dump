@@ -69,6 +69,16 @@ app.get("/get-images", (req, res) => {
 app.get("/get-images/:imageId", (req, res) => {
     db.getImage(req.params.imageId)
         .then(({ rows }) => {
+            let [
+                month,
+                date,
+                year,
+            ] = rows[0].created_at.toLocaleDateString().split("/");
+            let [hour, minute] = rows[0].created_at
+                .toLocaleTimeString()
+                .slice(0, 7)
+                .split(":");
+            rows[0].created_at = `${hour}:${minute}-${date}.${month}.${year}`;
             res.json({ rows });
         })
         .catch((err) => {
@@ -91,7 +101,24 @@ app.get("/get-more/:lowerstId", (req, res) => {
 app.get("/get-images/:imageId/comments", (req, res) => {
     db.getComments(req.params.imageId)
         .then(({ rows }) => {
-            res.json({ rows });
+            if (rows.length > 0) {
+                let [
+                    month,
+                    date,
+                    year,
+                ] = rows[0].created_at.toLocaleDateString().split("/");
+                let [
+                    hour,
+                    minute,
+                ] = rows[0].created_at
+                    .toLocaleTimeString()
+                    .slice(0, 7)
+                    .split(":");
+                rows[0].created_at = `${hour}:${minute}-${date}.${month}.${year}`;
+                res.json({ rows });
+            } else {
+                res.json({ rows });
+            }
         })
         .catch((err) => {
             console.error("error getting comments", err);
@@ -103,6 +130,16 @@ app.post("/comment", (req, res) => {
     let { username, comment, imageId } = req.body;
     db.addComment(username, comment, imageId)
         .then(({ rows }) => {
+            let [
+                month,
+                date,
+                year,
+            ] = rows[0].created_at.toLocaleDateString().split("/");
+            let [hour, minute] = rows[0].created_at
+                .toLocaleTimeString()
+                .slice(0, 7)
+                .split(":");
+            rows[0].created_at = `${hour}:${minute}-${date}.${month}.${year}`;
             res.json({ rows });
         })
         .catch((err) => {
